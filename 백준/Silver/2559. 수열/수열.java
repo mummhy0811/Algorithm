@@ -7,27 +7,33 @@ public class Main {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
         StringTokenizer st = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
 
         List<Integer> temperatureList = new ArrayList<>(n);
-        long max = 0, tmp;
-
         StringTokenizer st2 = new StringTokenizer(br.readLine());
 
         while(st2.hasMoreTokens()){
             temperatureList.add(Integer.valueOf(st2.nextToken()));
         }
-        for(int i=0;i<n+1-k;i++){
-            tmp=0;
-            for(int j=0;j<k;j++){
-                tmp+=temperatureList.get(i+j);
-            }
-            if(i==0) max=tmp;
-            if(tmp>max) max=tmp;
+
+        long max = 0, sum;
+        for(int i=0;i<k;i++){
+            max+=temperatureList.get(i);
         }
+
+        sum=max;
+        int start=0;
+        int end=k;
+
+        while(end<n){
+            sum = sum-temperatureList.get(start)+temperatureList.get(end);
+            max=Math.max(max, sum);
+            start+=1;
+            end+=1;
+        }
+
         bw.write(max+"");
         bw.flush();
         bw.close();
