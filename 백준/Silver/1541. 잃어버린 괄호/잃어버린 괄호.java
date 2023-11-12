@@ -13,25 +13,22 @@ public class Main {
         List<String> byMinus = new ArrayList<>();
         StringTokenizer st = new StringTokenizer(br.readLine(), "-");
 
-        while(st.hasMoreTokens()){ 
+        while(st.hasMoreTokens()){
             byMinus.add(st.nextToken());
         }
 
+        int result=0;
         for(int i=0;i<byMinus.size();i++){
             StringTokenizer st2 = new StringTokenizer(byMinus.get(i), "+");
             int sum=0;
             while(st2.hasMoreTokens()){
                 sum+=Integer.parseInt(st2.nextToken());
             }
-            byMinus.set(i,Integer.toString(sum));
+            if(i==0 )result+=sum;
+            else result-=sum;
         }
 
-        int init=Integer.parseInt(byMinus.get(0));
-        for(int i=1;i< byMinus.size();i++){
-            init-=Integer.parseInt(byMinus.get(i));
-        }
-
-        bw.write(init+"");
+        bw.write(result+"");
         bw.flush();
         bw.close();
     }
