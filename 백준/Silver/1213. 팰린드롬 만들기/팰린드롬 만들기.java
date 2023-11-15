@@ -35,15 +35,15 @@ public class Main {
             }
         }
 
-        list = list.stream().sorted().distinct().collect(Collectors.toList()); // a b
+        list = list.stream().sorted().distinct().collect(Collectors.toList());
         StringBuilder s = new StringBuilder();
         for(Character c:list){
-            int n = checkNum[(int)c-65]/2; //1
+            int n = checkNum[(int)c-65]/2;
             if(n%2!=0) {
-                s.append(String.valueOf(c).repeat(Math.max(0, n)));
+                s.append(String.valueOf(c).repeat(n));
                 continue;
             }
-            if(n>1) s.append(String.valueOf(c).repeat(Math.max(0, n-n%2)));
+            if(n>1) s.append(String.valueOf(c).repeat(n));
         }
 
         String ss = new String(s);
@@ -53,7 +53,7 @@ public class Main {
         if(hasOdd) {
             int n=checkNum[(int) oddChar - 65];
             if(n>1) s.append(oddChar);
-            else s.append(String.valueOf(oddChar).repeat(Math.max(0, n)));
+            else s.append(String.valueOf(oddChar).repeat(n));
         }
 
         s.append(s2);
