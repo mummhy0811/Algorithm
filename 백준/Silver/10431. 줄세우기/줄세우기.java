@@ -17,11 +17,14 @@ class Main {
             List<Integer> sort= new ArrayList<>();
             int num=0;
             sort.add(Integer.parseInt(st.nextToken()));
-            for(int j=2;j<21;j++){
+            for(int j=1;j<20;j++){
                 int height = Integer.parseInt(st.nextToken());
-                long p =  sort.stream().filter(s -> s>height).count();
+                int p=0;
+                for(int k=0;k<j;k++){
+                    if(sort.get(k)>height) p++;
+                }
                 num+=p;
-                sort.add((int) (j-p-1), height);
+                sort.add((j-p), height);
             }
             bw.write(t+" "+num+"\n");
         }
