@@ -13,11 +13,11 @@ class Main {
 
         int n=0;
         for(int i=0;i<N;i++){
-            if(String.valueOf(s[i]).equals("P")){
+            if(s[i]=='P'){
                 for(int j=-k;j<=k;j++){
-                    if(i+j<0 || i+j>=s.length) continue;
-                    if(String.valueOf(s[i+j]).equals("H")){
-                        s[i+j]=" ".charAt(0);
+                    if(i+j<0 || j==0 || i+j>=s.length ) continue;
+                    if(s[i+j]=='H'){
+                        s[i+j]=' ';
                         n++;
                         break;
                     }
