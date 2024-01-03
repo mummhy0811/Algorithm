@@ -3,8 +3,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -14,6 +12,7 @@ public class Main {
     static byte n;
     static byte[] x={0, 0, 1, -1};
     static byte[] y={1, -1, 0, 0};
+    static int cnt=0;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -38,6 +37,7 @@ public class Main {
             for(byte j=0;j<m;j++){
                 if(!visit[i][j] && trash[i][j]) {
                     max=Math.max(max, checkSize(i, j));
+                    cnt=0;
                 }
             }
         }
@@ -47,25 +47,16 @@ public class Main {
     }
 
     static int checkSize(int i, int j){
-        short size=1;
-        Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[]{i, j});
         visit[i][j]=true;
-        while(!queue.isEmpty()){
-            int[] now = queue.poll();
-            int s_i=now[0], s_j=now[1];
-
-            for(int a=0;a<4;a++){
-                int new_x=s_i+x[a];
-                int new_y=s_j+y[a];
-                if(new_x<0 || new_x>=n || new_y<0 || new_y>=m) continue;
-                if(!visit[new_x][new_y] && trash[new_x][new_y]){
-                    queue.add(new int[]{new_x, new_y});
-                    visit[new_x][new_y]=true;
-                    size++;
-                }
+        cnt++;
+        for(int a=0;a<4;a++){
+            int new_x=i+x[a], new_y=j+y[a];
+            if(new_x<0 || new_x>=n || new_y<0 || new_y>=m) continue;
+            if(!visit[new_x][new_y] && trash[new_x][new_y]){
+                checkSize(new_x, new_y);
+                visit[new_x][new_y]=true;
             }
         }
-        return size;
+        return cnt;
     }
 }
