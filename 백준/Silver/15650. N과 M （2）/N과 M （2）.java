@@ -6,7 +6,7 @@ import java.io.OutputStreamWriter;
 import java.util.StringTokenizer;
 
 public class Main {
-    public static byte n, m;
+
     public static int[] arr;
     public static boolean[] visit;
     public static BufferedWriter bw;
@@ -15,19 +15,19 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Byte.parseByte(st.nextToken());
-        m = Byte.parseByte(st.nextToken());
+        byte n = Byte.parseByte(st.nextToken());
+        byte m = Byte.parseByte(st.nextToken());
 
         arr = new int[n];
         visit=new boolean[n];
 
-        search(0, 0);
+        search(n, m, 0, 0);
 
         bw.flush();
         bw.close();
     }
 
-    private static void search(int depth, int pointer) throws IOException{
+    private static void search(byte n, byte m, int depth, int pointer) throws IOException{
         if(depth==m){
             for(int i=0;i<m;i++) bw.write(arr[i]+" ");
             bw.write("\n");
@@ -38,7 +38,7 @@ public class Main {
             if(!visit[i]){
                 visit[i]=true;
                 arr[depth]= i+1;
-                search(depth+1, ++pointer);
+                search(n, m, depth+1, ++pointer);
                 visit[i]=false;
             }
         }
