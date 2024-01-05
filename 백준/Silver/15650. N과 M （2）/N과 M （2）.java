@@ -10,7 +10,6 @@ public class Main {
     public static int[] arr;
     public static boolean[] visit;
     public static BufferedWriter bw;
-    public static byte pointer=0;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -22,20 +21,20 @@ public class Main {
         arr = new int[n];
         visit=new boolean[n];
 
-        search(0, pointer);
+        search(0, 0);
 
         bw.flush();
         bw.close();
     }
 
-    private static void search(int depth, byte pointer) throws IOException{
+    private static void search(int depth, int pointer) throws IOException{
         if(depth==m){
             for(int i=0;i<m;i++) bw.write(arr[i]+" ");
             bw.write("\n");
             return;
         }
 
-        for(byte i=pointer;i<n;i++){
+        for(int i=pointer;i<n;i++){
             if(!visit[i]){
                 visit[i]=true;
                 arr[depth]= i+1;
