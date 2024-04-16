@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -14,10 +13,14 @@ public class Main {
         arr = new int[n];//과자의 길이
 
         st = new StringTokenizer(br.readLine());
-        for(int i=0;i<n;i++) arr[i]=Integer.parseInt(st.nextToken());
-
-        Arrays.sort(arr);
-        int l=1, r=arr[n-1];
+        
+        int max=0;
+        for(int i=0;i<n;i++) {
+            arr[i]=Integer.parseInt(st.nextToken());
+            max=Math.max(max, arr[i]);
+        }
+        
+        int l=1, r=max;
 
         while(l<=r){
             int mid=(l+r)/2;
