@@ -1,34 +1,26 @@
 class Solution {
-    static int answer =0 ;
-    static int[] numbers;
-    static int target;
-    
-    public int solution(int[] number, int t) {
-        numbers=number;
-        target=t;
+    private int answer = 0;
+    private int[] numbers;
+    private int target;
 
-        check(0, 0, true);
-        check(0, 0, false);
-        
+    public int solution(int[] numbers, int target) {
+        this.numbers = numbers;
+        this.target = target;
+
+        check(0, 0);
+
         return answer;
     }
-    
-    private static void check(int depth, int n, boolean isNeg){
-        
-        if(isNeg){
-            n-=numbers[depth];
-        }else{
-            n+=numbers[depth];
-        }
-        
-        if(depth==numbers.length-1){
-            if(n == target){
+
+    private void check(int depth, int sum) {
+        if (depth == numbers.length) {
+            if (sum == target) {
                 answer++;
             }
             return;
         }
-        
-        check(depth+1, n, true);
-        check(depth+1, n, false);
+
+        check(depth + 1, sum + numbers[depth]);
+        check(depth + 1, sum - numbers[depth]);
     }
 }
