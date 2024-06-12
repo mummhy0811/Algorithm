@@ -1,12 +1,21 @@
-SELECT F.PRODUCT_ID, F.PRODUCT_NAME, F.PRICE*(O.total) as TOTAL_SALES
-FROM FOOD_PRODUCT F, (
-    SELECT PRODUCT_ID, sum(AMOUNT) as total
-    FROM FOOD_ORDER
-    WHERE PRODUCE_DATE like '2022-05%'
-    Group by PRODUCT_ID
-) O
-WHERE F.PRODUCT_ID=O.PRODUCT_ID
-Order by F.PRICE*(O.total) desc, F.PRODUCT_ID asc
-
-
-
+SELECT 
+    F.PRODUCT_ID, 
+    F.PRODUCT_NAME, 
+    F.PRICE * O.total AS TOTAL_SALES
+FROM 
+    FOOD_PRODUCT F
+JOIN 
+    (
+        SELECT 
+            PRODUCT_ID, 
+            SUM(AMOUNT) AS total
+        FROM 
+            FOOD_ORDER
+        WHERE 
+            PRODUCE_DATE LIKE '2022-05%'
+        GROUP BY 
+            PRODUCT_ID
+    ) O ON F.PRODUCT_ID = O.PRODUCT_ID
+ORDER BY 
+    TOTAL_SALES DESC, 
+    F.PRODUCT_ID ASC;
