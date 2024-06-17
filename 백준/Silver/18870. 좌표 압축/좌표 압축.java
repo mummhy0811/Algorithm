@@ -3,6 +3,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
+
 public class Main {
 
     public static void main(String[] args) throws IOException {
@@ -15,11 +16,7 @@ public class Main {
 
         for(int i=0;i<n;i++){
             int num=Integer.parseInt(st.nextToken());
-            if(map.containsKey(num)){
-                map.put(num, map.get(num)+1);
-            }else{
-                map.put(num, 1);
-            }
+            map.put(num, 1);
             arr[i]=num;
         }
 
@@ -28,7 +25,7 @@ public class Main {
             map.put(num, idx);
             idx++;
         }
-        
+
         for(int i=0;i<n;i++){
             bw.write(map.get(arr[i])+" ");
         }
