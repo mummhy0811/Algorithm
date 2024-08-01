@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Arrays;
 
 public class Main {
 
@@ -13,14 +12,11 @@ public class Main {
 
         for(int i=1;i<=S1.length();i++){
             for(int j=1;j<=S2.length();j++){
-                int n;
-
-                if(S1.charAt(i-1)==S2.charAt(j-1)) n = cnt[i-1][j-1]+1;
-                else n = Math.max(cnt[i][j-1], cnt[i-1][j]);
-
-                Arrays.fill(cnt[i], j, S2.length()+1, n);
+                if(S1.charAt(i-1)==S2.charAt(j-1)) cnt[i][j] = cnt[i-1][j-1]+1;
+                else cnt[i][j] = Math.max(cnt[i][j-1], cnt[i-1][j]);
             }
         }
+        
         bw.write(cnt[S1.length()][S2.length()]+"");
         bw.flush();
         bw.close();
