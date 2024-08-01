@@ -1,0 +1,19 @@
+WITH RECURSIVE ECOLI_HERITAGE AS(
+    
+    SELECT ID, PARENT_ID, 1 as GENERATION
+    FROM ECOLI_DATA
+    WHERE ISNULL(PARENT_ID)
+    
+    Union all
+    
+    SELECT E.ID, E.PARENT_ID, EH.GENERATION+1 
+    FROM ECOLI_DATA E inner join ECOLI_HERITAGE EH ON E.PARENT_ID = EH.ID
+)
+
+SELECT count(*) as COUNT, e1.GENERATION
+FROM 
+    ECOLI_HERITAGE e1
+LEFT JOIN 
+    ECOLI_HERITAGE e2 ON e1.id = e2.parent_id
+where ISNULL(e2.parent_id)
+group by e1.generation
