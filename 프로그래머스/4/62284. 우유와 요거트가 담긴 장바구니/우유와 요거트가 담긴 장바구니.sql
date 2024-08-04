@@ -1,12 +1,5 @@
 select CART_ID
-from (
-    SELECT distinct CART_ID
-    FROM CART_PRODUCTS 
-    where CART_PRODUCTS.NAME like 'Yogurt'
-        union all
-    SELECT distinct CART_ID
-    FROM CART_PRODUCTS 
-    where CART_PRODUCTS.NAME like 'Milk'
-)UNIONED_CART
+from CART_PRODUCTS 
+where NAME IN ('Milk', 'Yogurt')
 group by CART_ID
-having count(cart_id)>=2
+having count(distinct NAME)=2;
