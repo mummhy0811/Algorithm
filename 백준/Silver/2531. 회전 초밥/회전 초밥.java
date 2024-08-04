@@ -12,28 +12,33 @@ public class Main {
         int k = Integer.parseInt(st.nextToken());
         int c = Integer.parseInt(st.nextToken());
 
-        List<Integer> belt = new ArrayList<>();
+        int[] belt = new int[n + k - 1];
         for(int i=0;i<n;i++){
-            belt.add(Integer.parseInt(br.readLine()));
+            belt[i] = Integer.parseInt(br.readLine());
         }
-        List<Integer> now = new ArrayList<>();
+        for (int i = n; i < n + k - 1; i++) {
+            belt[i] = belt[i - n];
+        }
+        int ans=1;
+        int[] now = new int[d+1];
+        now[c]++;
         for(int i=0;i<k;i++){
-            int init = belt.get(i);
-            now.add(init);
-            belt.add(init);
+            if(now[belt[i]]==0) ans++;
+            now[belt[i]]++;
         }
 
-        Set<Integer> maxSet = new HashSet<>();
-        for(int i = 0; i<n; i++){
-            Set<Integer>set = new HashSet<>(now);
-            if(maxSet.size()<set.size() || (maxSet.size()==set.size() && !maxSet.equals(set) && !now.contains(c)) ){
-                maxSet=set;
-            }
-            now.remove(belt.get(i));
-            now.add(belt.get(i+k));
+        int max=ans;
+
+        for(int i=k;i<belt.length;i++){
+            if(now[belt[i]]==0) ans++;
+            now[belt[i]]++;
+
+            now[belt[i-k]]--;
+            if(now[belt[i-k]]==0) ans--;
+
+            max=Math.max(max, ans);
         }
-        if(!maxSet.contains(c)) bw.write((maxSet.size()+1)+"");
-        else bw.write(maxSet.size()+"");
+        bw.write(max+"");
         bw.flush();
         bw.close();
     }
