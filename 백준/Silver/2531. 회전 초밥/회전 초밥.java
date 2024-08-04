@@ -20,19 +20,14 @@ public class Main {
         for(int i=0;i<k;i++){
             int init = belt.get(i);
             now.add(init);
-            belt.add(belt.get(i));
+            belt.add(init);
         }
 
-        int max=1;
         Set<Integer> maxSet = new HashSet<>();
         for(int i = 0; i<n; i++){
             Set<Integer>set = new HashSet<>(now);
-            if(max<set.size()){
-                max= set.size();
-                maxSet=Set.copyOf(set);
-            }else if(max==set.size() && !maxSet.equals(set) && !now.contains(c)){
-                maxSet=Set.copyOf(set);
-                max= set.size();
+            if(maxSet.size()<set.size() || (maxSet.size()==set.size() && !maxSet.equals(set) && !now.contains(c)) ){
+                maxSet=set;
             }
             now.remove(belt.get(i));
             now.add(belt.get(i+k));
