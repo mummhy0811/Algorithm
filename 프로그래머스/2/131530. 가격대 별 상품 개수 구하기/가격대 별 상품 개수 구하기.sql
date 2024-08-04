@@ -1,0 +1,17 @@
+# -- 최대 가격 범위를 계산합니다
+# SET @max_price = (SELECT MAX(PRODUCT.PRICE % 10000) FROM PRODUCT);
+
+# -- 재귀 CTE를 사용하여 가격 범위를 생성합니다
+# WITH RECURSIVE PRICE_GROUP AS (
+#     SELECT 0 AS PRICE
+#     UNION ALL
+#     SELECT PRICE_GROUP.PRICE + 10000
+#     FROM PRICE_GROUP
+#     WHERE PRICE_GROUP.PRICE + 10000 <= @max_price
+# )
+# SELECT * FROM PRICE_GROUP;
+
+select FLOOR(PRICE/10000) * 10000 as PRICE_GROUP , count(*) as PRODUCTS
+from product
+group by FLOOR(PRICE/10000) * 10000
+order by PRICE_GROUP
