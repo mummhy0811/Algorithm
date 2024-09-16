@@ -1,0 +1,27 @@
+SELECT     
+    CASE
+           WHEN SUM(CASE WHEN S.CATEGORY = 'Front End' THEN 1 ELSE 0 END) > 0 
+             AND SUM(CASE WHEN S.NAME = 'Python' THEN 1 ELSE 0 END) > 0 
+        THEN 'A'
+        WHEN SUM(CASE WHEN S.NAME = 'C#' THEN 1 ELSE 0 END) > 0 
+        THEN 'B'
+        WHEN SUM(CASE WHEN S.CATEGORY = 'Front End' THEN 1 ELSE 0 END) > 0 
+        THEN 'C'
+    END	as GRADE, ID, EMAIL
+FROM DEVELOPERS D
+    JOIN SKILLCODES S
+    on D.SKILL_CODE & S.CODE >0
+GROUP BY D.ID, D.EMAIL
+HAVING 
+    CASE 
+        WHEN SUM(CASE WHEN S.CATEGORY = 'Front End' THEN 1 ELSE 0 END) > 0 
+             AND SUM(CASE WHEN S.NAME = 'Python' THEN 1 ELSE 0 END) > 0 
+        THEN 'A'
+        WHEN SUM(CASE WHEN S.NAME = 'C#' THEN 1 ELSE 0 END) > 0 
+        THEN 'B'
+        WHEN SUM(CASE WHEN S.CATEGORY = 'Front End' THEN 1 ELSE 0 END) > 0 
+        THEN 'C'
+    END IS NOT NULL
+ORDER BY GRADE, D.ID
+
+
