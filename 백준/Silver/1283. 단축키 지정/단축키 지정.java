@@ -24,11 +24,10 @@ public class Main {
             st = new StringTokenizer(s, " ");
 
             boolean fin = false;
-            
+
             int wIdx = 0;
             while(st.hasMoreTokens()){
-                String part = st.nextToken();
-                char c = part.charAt(0);
+                char c = st.nextToken().charAt(0);
                 if(!set.contains(c)){
                     bw.write(print(now, wIdx, 0)+"\n");
                     set.add(c);
@@ -43,10 +42,7 @@ public class Main {
                 for(int j=0;j<s.length();j++){
                     char c = s.charAt(j);
                     if(c!=' ' && !set.contains(c)){
-                        String pre = now.substring(0, j);
-                        String n = now.substring(j, j+1);
-                        String post = now.substring(j+1, now.length());
-                        bw.write(pre+"["+n+"]"+post+"\n");
+                        bw.write(now.substring(0, j)+"["+now.charAt(j)+"]"+now.substring(j+1)+"\n");
                         set.add(c);
                         fin=true;
                         break;
@@ -66,18 +62,16 @@ public class Main {
         StringTokenizer st = new StringTokenizer(s, " ");
 
         for(int i=0;i<wIdx;i++){
-            sb.append(st.nextToken()+" ");
+            sb.append(st.nextToken()).append(" ");
         }
 
         String target = st.nextToken();
 
-        String pre = target.substring(0, idx);
-        String n = target.substring(idx, idx+1);
-        String post = target.substring(idx+1, target.length());
-        sb.append(pre).append("[").append(n).append("]").append(post+" ");
+        sb.append(target, 0, idx)
+                .append("[").append(target.charAt(idx)).append("]").append(target.substring(idx + 1)).append(" ");
 
         while(st.hasMoreTokens()){
-            sb.append(st.nextToken()+" ");
+            sb.append(st.nextToken()).append(" ");
         }
         return sb.toString();
     }
