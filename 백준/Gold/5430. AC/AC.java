@@ -9,45 +9,49 @@ public class Main {
 
         int T = Integer.parseInt(br.readLine());
 
-        for(int i=0;i<T;i++){
+        while(T-->0){
             String[] func = br.readLine().split("");
             br.readLine();
-            String input = br.readLine();
-            String[] arr;
-            if (input.equals("[]")) {
-                arr = new String[0];
-            } else {
-                arr = input.replaceAll("[\\[\\]]", "").split(",");
-            }
-            Deque<String> deque = new LinkedList<>(Arrays.asList(arr));
+            Deque<String> deque = parseInput(br.readLine());
 
             boolean isReversed = false;
-            boolean error = false;
+            boolean hasError = false;
 
             for(String s:func){
                 if(s.equals("R")) isReversed = !isReversed;
                 else if(s.equals("D")){
                     if(deque.isEmpty()){
-                        error = true;
+                        hasError = true;
+                        bw.write("error\n");
                         break;
                     }
                     if(isReversed) deque.pollLast();
-                    else deque.poll();
+                    else deque.pollFirst();
                 }
             }
-            if(error) bw.write("error\n");
-            else{
-                if(isReversed) {
-                    List<Object> reversed = Arrays.asList(deque.toArray());
-                    Collections.reverse(reversed);
-                    bw.write(reversed.toString().replaceAll(" ","")+"\n");
-                }else {
-                    bw.write(deque.toString().replaceAll(" ","")+"\n");
-                }
+            if (!hasError) {
+                bw.write(formatOutput(deque, isReversed));
             }
         }
 
         bw.flush();
         bw.close();
+    }
+    private static Deque<String> parseInput(String input) {
+        if (input.equals("[]")) {
+            return new LinkedList<>();
+        }
+        String[] elements = input.replaceAll("[\\[\\]]", "").split(",");
+        return new LinkedList<>(Arrays.asList(elements));
+    }
+    private static String formatOutput(Deque<String> deque, boolean isReversed) {
+        StringBuilder sb = new StringBuilder("[");
+        Iterator<String> iterator = isReversed ? deque.descendingIterator() : deque.iterator();
+        while (iterator.hasNext()) {
+            sb.append(iterator.next());
+            if (iterator.hasNext()) sb.append(",");
+        }
+        sb.append("]\n");
+        return sb.toString();
     }
 }
