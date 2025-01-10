@@ -7,7 +7,8 @@ public class Main {
     static int[][] arr;
     static boolean[][] visit;
 
-    static int max = 0;
+    static int max = 0, maxValue = 0;
+
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -22,6 +23,7 @@ public class Main {
             st = new StringTokenizer(br.readLine());
             for(int j=0;j<M;j++){
                 arr[i][j]=Integer.parseInt(st.nextToken());
+                maxValue = Math.max(maxValue, arr[i][j]);
             }
         }
 
@@ -40,6 +42,7 @@ public class Main {
     }
 
     private static void find(int x, int y, int size, int sum, int N, int M){
+        if (sum + maxValue * (4 - size) <= max) return;
         if(size == 4){
             max = Math.max(max, sum);
             return;
