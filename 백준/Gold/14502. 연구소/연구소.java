@@ -15,7 +15,6 @@ public class Main {
 
         arr = new int[N][M];
 
-
         for(int i=0;i<N;i++){
             st = new StringTokenizer(br.readLine());
             for(int j=0;j<M;j++){
@@ -23,49 +22,38 @@ public class Main {
             }
         }
 
-        for(int i=0;i<N;i++){
-            for(int j=0;j<M;j++){
-                if(arr[i][j] == 0){
-                    arr[i][j] = 1;
-                    find( i,1);
-                    arr[i][j] = 0;
-                }
-            }
-        }
+        find(0,0);
         System.out.println(maxSize);
     }
     private static void find(int l, int wallCnt){
         if(wallCnt == 3){
-            maxSize = Math.max(maxSize,checkSafeArea());
+            checkSafeArea();
             return;
         }
         for(int i=l;i<N;i++){
             for(int j=0;j<M;j++){
                 if(arr[i][j] == 0){
                     arr[i][j] = 1;
-                    find(l,wallCnt+1);
+                    find(i,wallCnt+1);
                     arr[i][j] = 0;
                 }
             }
         }
-
     }
-    private static int checkSafeArea(){
+    private static void checkSafeArea(){
         boolean[][] visit = new boolean[N][M];
         Queue<int[]> queue = new LinkedList<>();
         int totalSize = N*M;
 
         for(int i=0;i<N;i++){
             for(int j=0;j<M;j++){
-                if(arr[i][j] == 2){
-                    queue.add(new int[]{i, j});
-                    totalSize--;
-                }else if(arr[i][j] == 1){
-                    totalSize--;
-                }
+                int n = arr[i][j];
+
+                if(n==0) continue;
+                else if(arr[i][j] == 2) queue.add(new int[]{i, j});
+                totalSize--;
             }
         }
-
 
         while(!queue.isEmpty()){
             int[] pos = queue.poll();
@@ -84,6 +72,6 @@ public class Main {
                 totalSize--;
             }
         }
-        return totalSize;
+        maxSize = Math.max(maxSize,totalSize);
     }
 }
