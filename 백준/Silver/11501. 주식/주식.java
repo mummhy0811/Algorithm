@@ -5,48 +5,32 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
-        int t = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
         StringTokenizer st;
+        
+        int t = Integer.parseInt(br.readLine());
+
         for(int i=0;i<t;i++){
             int N = Integer.parseInt(br.readLine());
-            st = new StringTokenizer(br.readLine());
             int[] arr = new int[N];
-            int[] cnt = new int[100001];
+            
+            st = new StringTokenizer(br.readLine());
             for(int j=0;j<N;j++) {
-                int n = Integer.parseInt(st.nextToken());
-                arr[j] = n;
-                cnt[n]++;
+                arr[j] = Integer.parseInt(st.nextToken());
             }
-            bw.write(find(arr, cnt)+"\n");
+            
+            sb.append(find(arr)).append("\n");
         }
-        bw.flush();
-        bw.close();
+        System.out.println(sb);
     }
 
-    private static long find(int[] arr, int[] cnt){
-
-        Queue<Integer> queue = new LinkedList<>();
-        long ans = 0;
-
-        for (int n : arr) {
-            cnt[n]--;
-            boolean isBiggest = true;
-            for (int j = n; j < 100001; j++) {
-                if (cnt[j] > 0) {
-                    queue.add(n);
-                    isBiggest = false;
-                    break;
-                }
-            }
-            if (isBiggest) {
-                while (!queue.isEmpty()) {
-                    ans += (n - queue.poll());
-                }
-            }
+    private static long find(int[] arr){
+        long maxProfit = 0;
+        int maxPrice = 0;
+        for(int i = arr.length-1;i>=0;i--){
+            if(arr[i]>maxPrice ) maxPrice  = arr[i];
+            else maxProfit += (maxPrice - arr[i]);
         }
-
-        return ans;
+        return maxProfit;
     }
 }
