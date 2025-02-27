@@ -2,48 +2,32 @@ import java.util.*;
 
 class Solution {
     public int solution(int n, int[][] results) {
-        int answer = 0;
         
         int[][] check = new int[n+1][n+1];
-        int[] cnt = new int[n+1];
-        
         
         for(int[] r: results){
-            int winner = r[0];
-            int loser = r[1];
-            check[winner][loser] = 1;
-            check[loser][winner] = -1;
-            cnt[winner]++;
-            cnt[loser]++;
+            check[r[0]][r[1]] = 1;
+            check[r[1]][r[0]] = -1;
         }
         
-        
-        for(int i=1;i<=n;i++){
-            List<Integer> stronger = new ArrayList<>();
-            List<Integer> weaker = new ArrayList<>();
-            for(int j=1;j<=n;j++){
-                if(check[i][j]==-1){
-                    stronger.add(j);
-                }else if(check[i][j]==1){
-                    weaker.add(j);
-                }
-            }
-            
-            for(Integer w: weaker){
-                for(Integer s: stronger){
-                    if(check[w][s] == 0){
-                        check[w][s] = -1;
-                        check[s][w] = 1;
-                        cnt[s]++;
-                        cnt[w]++;
+        for (int k = 1; k <= n; k++) {
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= n; j++) {
+                    if (check[i][k] == 1 && check[k][j] == 1) { 
+                        check[i][j] = 1;  // i가 k를 이기고, k가 j를 이기면 i는 j를 이김
+                        check[j][i] = -1; // j는 i에게 짐
                     }
-                    
                 }
             }
         }
         
-        for(int i=1;i<=n;i++){
-            if(cnt[i] == n-1) answer++;
+        int answer = 0;
+        for (int i = 1; i <= n; i++) {
+            int count = 0;
+            for (int j = 1; j <= n; j++) {
+                if (check[i][j] != 0) count++; 
+            }
+            if (count == n - 1) answer++; 
         }
         return answer;
     }
