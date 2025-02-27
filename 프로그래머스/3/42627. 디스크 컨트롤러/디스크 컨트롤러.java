@@ -12,7 +12,7 @@ class Solution {
         public int compareTo(Task t){
             if(this.duration!=t.duration) return this.duration-t.duration;
             else if(this.requestTime!=t.requestTime) return this.requestTime-t.requestTime;
-            else return this.num-t.num;
+            return this.num-t.num;
         }
     }
     
@@ -21,30 +21,28 @@ class Solution {
         Arrays.sort(jobs, Comparator.comparingInt(o -> o[0]));
         
         PriorityQueue<Task> queue = new PriorityQueue<>();
-        int sum = 0, now = 0, end = 0, idx = 0, i=0;
+        int totalTime = 0, currentTime = 0, idx = 0, taskCount = jobs.length;
         
-        Task t = new Task(idx,0, 0);
-        
-        while(!queue.isEmpty() ||i<jobs.length ){
+        while(!queue.isEmpty() ||idx< taskCount){
             
+            //지금 할 수 있는 작업 큐에 추가
+            while(idx<taskCount && jobs[idx][0]<=currentTime){
+                queue.add(new Task(idx, jobs[idx][0], jobs[idx][1]));
+                idx++;
+            }
+            
+            //컨트롤러가 쉬는 경우 다음 요청 시간으로 이동
             if(queue.isEmpty()){
-                now = jobs[i][0];
-                for(int time=now;time<=now + t.duration && i<jobs.length;i++){
-                    if(jobs[i][0]!=time) break;
-                    queue.add(new Task(idx++, jobs[i][0], jobs[i][1]));
-                }  
+                currentTime = jobs[idx][0];
+                continue;
             }
         
-            t = queue.poll();
-            end = now + t.duration;;
-            for(int time=now;time<=end && i<jobs.length;time++, i++){
-                if(end<jobs[i][0]) break;
-                queue.add(new Task(idx++, jobs[i][0], jobs[i][1]));
-            }  
-            now += t.duration;
-            sum += (now - t.requestTime);          
+            //우선순위 작업 수행
+            Task t = queue.poll();
+            currentTime+=t.duration;
+            totalTime +=(currentTime - t.requestTime);        
              
         }
-        return sum/jobs.length;
+        return totalTime/jobs.length;
     }
 }
