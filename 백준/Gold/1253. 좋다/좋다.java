@@ -20,18 +20,24 @@ public class Main {
         for(int i=0;i<N;i++) if(isGood(i)) cnt++;
 
         System.out.println(cnt);
-
     }
 
     static boolean isGood(int target){
 
-        for(int i=0;i<N;i++){
-            if(i==target) continue;
-            for(int j=i+1;j<N;j++){
-                if(j==target) continue;
-                if(arr[i]+arr[j]==arr[target]) return true;
-            }
+        int l = 0, r = N-1;
+
+        while(l<r){
+            if(l == target) l++;
+            else if(r == target) r--;
+
+            if(l==r) break;
+
+            int sum = arr[l]+arr[r];
+            if(sum == arr[target]) return true;
+            else if(sum < arr[target]) l++;
+            else r--;
         }
+
         return false;
     }
 }
