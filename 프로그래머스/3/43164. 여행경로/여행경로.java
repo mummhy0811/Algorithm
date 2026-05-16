@@ -2,54 +2,62 @@ import java.util.*;
 
 class Solution {
 
-    private static boolean[] visit;
-    private static String[][] tickets;
-    private static List<String> ans;
-    
-    public String[] solution(String[][] _tickets) {
-        tickets = _tickets;
-        int ticket_cnt = _tickets.length;
+    public String[] solution(String[][] tickets) {
+
+        String[] answer = new String[tickets.length+1];
+
+        Map<String, List<String>> map = new HashMap<>();
         
-        ans = new ArrayList<>();
-        
-        for(int i=0;i<ticket_cnt;i++){
-            if(tickets[i][0].equals("ICN")) {
-                visit = new boolean[ticket_cnt];
-                
-                visit[i]=true;
-                List<String> l = new ArrayList<>();
-                l.add("ICN");
-                
-                make(l,tickets[i][1], ticket_cnt+1);
-            }
+        for (String[] c : tickets) {
+            String from = c[0];
+            String to = c[1];
+
+            map.putIfAbsent(from, new ArrayList<>());
+            map.get(from).add(to);
+        }
+
+        for (List<String> list : map.values()) {
+            Collections.sort(list);
         }
         
-        Collections.sort(ans);
+        find("ICN", 0, answer,map);
 
-        String input = ans.get(0).replaceAll("[\\[\\]\"]", "");
-        String[] result = input.split(",\\s*");
-        return result;
+        
+        return answer;
     }
     
-    private void make(List<String> list, String start, int target){
+    public boolean find(String from, int idx, String[] answer, Map<String, List<String>> map){
         
-        list.add(start);
-
+        answer[idx] = from;
         
-        if(list.size() >= target){
-            ans.add(list.toString());
-            list.remove(list.size() - 1); // 상태 복구
-
-            return;
+        //모든 티켓 사용 완료
+        if (idx == answer.length - 1) {
+            return true;
         }
+
+        List<String> list = map.get(from);
         
-        for(int i=0;i<tickets.length;i++){
-            if(tickets[i][0].equals(start) && !visit[i]) {
-                visit[i] = true;
-                make(list, tickets[i][1], target);
-                visit[i] = false;
+        //항공권 없음 - 종료
+        if (list == null) {
+            return false;
+        }
+
+        
+        for(int i=0;i<list.size();i++){
+            String next = list.get(i);
+            
+            list.remove(i);
+            map.replace(from, list);
+            
+            if (find(next, idx + 1, answer, map)) {
+                return true;
             }
+            
+            list.add(i, next);
+            map.replace(from, list);
         }
-        list.remove(list.size() - 1); // 리스트 상태 복구
-    } 
+        return false;
+        
+    }
+    
 }
